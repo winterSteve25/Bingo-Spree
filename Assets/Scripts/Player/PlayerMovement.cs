@@ -1,39 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+namespace Player
 {
-
-    public float moveSpeed;
-    public Rigidbody2D rb;
-
-    private Vector2 moveDirection;
-    
-
-    // Update is called once per frame
-    void Update()
+    public class PlayerMovement : MonoBehaviour
     {
-        // Processing Inputs
-        ProcessInputs();
-    }
+        [SerializeField] private float moveSpeed;
+        [SerializeField] private Rigidbody2D rb;
 
-    void FixedUpdate()
-    {
-        // Physics calculations
-        Move();
-    }
+        private Vector2 _moveDirection;
 
-    void ProcessInputs()
-    {
-        float moveX = Input.GetAxisRaw("Horizontal");
-        float moveY = Input.GetAxisRaw("Vertical");
+        // Update is called once per frame
+        void Update()
+        {
+            // Processing Inputs
+            ProcessInputs();
+        }
 
-        moveDirection = new Vector2(moveX, moveY).normalized;
-    }
+        void FixedUpdate()
+        {
+            // Physics calculations
+            Move();
+        }
 
-    void Move()
-    {
-        rb.velocity = new Vector2(moveDirection.x * moveSpeed, moveDirection.y * moveSpeed);
+        void ProcessInputs()
+        {
+            float moveX = Input.GetAxisRaw("Horizontal");
+            float moveY = Input.GetAxisRaw("Vertical");
+
+            _moveDirection = new Vector2(moveX, moveY).normalized;
+        }
+
+        void Move()
+        {
+            rb.velocity = new Vector2(_moveDirection.x * moveSpeed, _moveDirection.y * moveSpeed);
+        }
     }
 }
