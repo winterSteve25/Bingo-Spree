@@ -7,10 +7,9 @@ namespace Items
     public struct ItemStack
     {
         [SerializeField] private Item item;
-        [SerializeField] private int amount;
         
         public Item Item => item;
-        public int Amount => amount;
+        public int amount;
         
         public ItemStack(Item item, int amount)
         {

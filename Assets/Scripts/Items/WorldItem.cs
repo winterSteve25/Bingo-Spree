@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Items
@@ -15,18 +17,26 @@ namespace Items
             set
             {
                 isHovering = value;
-                UpdateBorder();
+                UpdateVisual();
             }
         }
 
+        private SpriteRenderer _sprite;
+
         private void Start()
         {
-            GetComponent<SpriteRenderer>().sprite = item.Icon;
+            _sprite = GetComponent<SpriteRenderer>();
+            if (item != null) Init(item);
         }
 
-        private void UpdateBorder()
+        public void Init(Item item)
         {
-            
+            _sprite.sprite = item.Icon;
+        }
+
+        private void UpdateVisual()
+        {
+            _sprite.DOColor(isHovering ? Color.cyan : Color.white, 0.1f);
         }
     }
 }

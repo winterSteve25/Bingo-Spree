@@ -27,5 +27,10 @@ namespace Tasks
             
             LayoutRebuilder.ForceRebuildLayoutImmediate(bingo);
         }
+
+        public BingoItem Get(int i, int j)
+        {
+            return bingo.GetChild(i).GetChild(j).GetComponent<BingoItem>();
+        }
     }
 }
