@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: af45b89c84d7c40479cc714a23b09056, type: 3}
   displayName: Canned Food 2
+  minAmountPerTask: 1
+  maxAmountPerTask: 4

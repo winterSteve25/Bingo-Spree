@@ -13,7 +13,7 @@ namespace Tasks
 
         private ItemStack[,] _bingo;
 
-        private static readonly Lazy<Item[]> Items = new Lazy<Item[]>(() => Resources.LoadAll<Item>("Items/Objects"));
+        private static readonly Lazy<Item[]> Items = new(() => Resources.LoadAll<Item>("Items/Objects"));
 
         public BingoTask(int bingoDimension, BingoUI ui)
         {
@@ -30,7 +30,8 @@ namespace Tasks
             {
                 for (int j = 0; j < _bingoDimension; j++)
                 {
-                    _bingo[i, j] = new ItemStack(Items.Value[Random.Range(0, Items.Value.Length)], Random.Range(1, 5));
+                    Item item = Items.Value[Random.Range(0, Items.Value.Length)];
+                    _bingo[i, j] = new ItemStack(item, Random.Range(item.Min, item.Max + 1));
                 }
             }
 

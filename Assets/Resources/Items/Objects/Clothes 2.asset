@@ -14,3 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 609f60b9d11a78346b19fb794a63f111, type: 3}
   displayName: Clothes 2
+  minAmountPerTask: 1
+  maxAmountPerTask: 4

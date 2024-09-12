@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 namespace Player
@@ -28,6 +29,16 @@ namespace Player
             float moveY = Input.GetAxisRaw("Vertical");
 
             _moveDirection = new Vector2(moveX, moveY).normalized;
+
+            if (_moveDirection.sqrMagnitude != 0)
+            {
+                transform.DORotateQuaternion(
+                    Quaternion.Euler(0, 0, Mathf.Rad2Deg * Mathf.Atan2(_moveDirection.y, _moveDirection.x) - 90), 0.2f);
+            }
+            else
+            {
+                transform.DORotate(Vector3.zero, 0.2f);
+            }
         }
 
         void Move()

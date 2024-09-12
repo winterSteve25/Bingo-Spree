@@ -23,7 +23,7 @@ namespace Player
         {
             Vector2 mp = Input.mousePosition;
             Vector2 pos = mainCam.ScreenToWorldPoint(mp);
-            Collider2D col = Physics2D.OverlapPoint(pos);
+            Collider2D col = Physics2D.OverlapPoint(pos, LayerMask.GetMask("Items"));
 
             #region NotHovering
 
@@ -34,6 +34,12 @@ namespace Player
             }
 
             if (!col.gameObject.TryGetComponent(out WorldItem item))
+            {
+                ResetHovering();
+                return;
+            }
+
+            if (!item.Pickable)
             {
                 ResetHovering();
                 return;
@@ -55,37 +61,7 @@ namespace Player
             if (!Input.GetMouseButtonDown(0)) return;
 
             OnItemPickedUp?.Invoke(item.Item);
-            StartCoroutine(DeleteItem(item));
-        }
-
-        private IEnumerator DeleteItem(WorldItem item)
-        {
-            Transform trans = item.transform;
-            float time = 0.2f;
-            Destroy(item);
-
-            trans.DOScale(Vector3.zero, time);
-
-            float t = 0;
-            Vector3 p0 = trans.position;
-            Vector3 p2 = transform.position;
-            Vector3 p1 = (p2 - p0) * 0.5f + p0;
-
-            if (Mathf.Abs(p2.x - p0.x) > 0.01)
-            {
-                p1.y += 1 / (p2.x - p0.x);
-            }
-
-            DOTween.To(() => t, x =>
-            {
-                t = x;
-                trans.position = Mathf.Pow(1 - t, 2) * p0 +
-                                 2 * (1 - t) * t * p2 +
-                                 Mathf.Pow(t, 2) * p1;
-            }, 1, time);
-
-            yield return new WaitForSeconds(time);
-            Destroy(trans.gameObject);
+            item.PickUp(transform);
         }
 
         private void ResetHovering()
