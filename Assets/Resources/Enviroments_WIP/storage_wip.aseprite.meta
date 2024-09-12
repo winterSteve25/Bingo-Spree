@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1b61055409c75e1489e2f7044cb96e27
+guid: 37bf1a6d4f66baa46aae6fd209290e0e
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -119,7 +119,7 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: all_item_wip
+  - name: storage_wip
     originalName: 
     pivot: {x: 0.5, y: 0}
     alignment: 9
@@ -128,9 +128,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 128
-      height: 80
-    spriteID: 53a52ddce7905cd408ab27ea2e2c51f4
+      width: 305
+      height: 238
+    spriteID: 05cf5ad97efd98b4aaf7a57a03ff12ff
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -142,25 +142,25 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: -1942838990
-    name: all_item_wip
+    guid: 2010246724
+    name: storage_wip
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: all_item_wip
+    - name: storage_wip
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
         x: 0
         y: 0
-        width: 128
-        height: 80
-      spriteId: 53a52ddce7905cd408ab27ea2e2c51f4
+        width: 305
+        height: 238
+      spriteId: 05cf5ad97efd98b4aaf7a57a03ff12ff
     linkedCells: []
     parentIndex: -1
   platformSettings: []
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 128, y: 80}
+  canvasSize: {x: 305, y: 238}
