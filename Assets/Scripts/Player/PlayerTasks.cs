@@ -4,6 +4,7 @@ using Items;
 using Tasks;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Player
 {
@@ -14,15 +15,15 @@ namespace Player
 
         [SerializeField] private int bingoDimension;
         [SerializeField] private BingoUI bingoUI;
+        [SerializeField] private Slider countDown;
         [SerializeField] private TMP_Text timeText;
 
         private List<IPlayableTask> _tasks;
-        private BingoTask _bingo;
         private float _time;
         private bool _completed;
 
-        public BingoTask BingoTask => _bingo;
         public float CompletionTime => _time;
+        public List<IPlayableTask> Tasks => _tasks;
 
         private void Awake()
         {
@@ -46,7 +47,10 @@ namespace Player
 
         private void OnOnItemPickedUp(Item item)
         {
-            _bingo.Update(item);
+            foreach (var task in _tasks)
+            {
+                task.ItemPickedUp(item);
+            }
         }
 
         private void Update()
@@ -61,15 +65,24 @@ namespace Player
         public void StartGame()
         {
             _tasks = new List<IPlayableTask>();
-            _bingo = new BingoTask(bingoDimension, bingoUI);
-            _bingo.GenerateBingo();
             _completed = false;
             _time = 0;
+            _tasks.Add(new BingoTask(bingoDimension, bingoUI));
+            _tasks.Add(new TestTask());
+            _tasks.Add(new TestTask());
+            PlayerInput.Disabled = false;
+
+            foreach (var task in _tasks)
+            {
+                task.Start();
+            }
         }
 
         public void EndGame()
         {
             _completed = true;
+            timeText.text = "";
+            PlayerInput.Disabled = true;
         }
     }
 }

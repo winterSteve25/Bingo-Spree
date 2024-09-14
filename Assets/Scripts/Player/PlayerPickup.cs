@@ -58,7 +58,7 @@ namespace Player
                 _hoveringItem.IsHovering = true;
             }
 
-            if (!Input.GetMouseButtonDown(0)) return;
+            if (!Input.GetMouseButton(0)) return;
 
             OnItemPickedUp?.Invoke(item.Item);
             item.PickUp(transform);

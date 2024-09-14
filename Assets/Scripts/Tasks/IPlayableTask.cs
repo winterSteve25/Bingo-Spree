@@ -1,7 +1,14 @@
+using Items;
+
 namespace Tasks
 {
     public interface IPlayableTask
     {
-        bool IsCompleted { get; protected set; }
+        string LeftText();
+        string RightText();
+        int GetScore();
+        
+        void Start();
+        void ItemPickedUp(Item item);
     }
 }

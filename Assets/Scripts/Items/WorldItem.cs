@@ -22,20 +22,21 @@ namespace Items
             }
         }
 
-        private SpriteRenderer _sprite;
+        [SerializeField] private SpriteRenderer sprite;
+        
         private bool _pickable;
         private Transform _target;
 
         private void Start()
         {
-            _sprite = GetComponent<SpriteRenderer>();
             _pickable = true;
             if (item != null) Init(item);
         }
 
         public void Init(Item item)
         {
-            _sprite.sprite = item.Icon;
+            sprite.sprite = item.Icon;
+            this.item = item;
         }
 
         public void PickUp(Transform target)
@@ -59,7 +60,7 @@ namespace Items
 
         private void UpdateVisual()
         {
-            _sprite.DOColor(isHovering ? Color.cyan : Color.white, 0.1f);
+            sprite.DOColor(isHovering ? Color.gray : Color.white, 0.1f);
         }
     }
 }

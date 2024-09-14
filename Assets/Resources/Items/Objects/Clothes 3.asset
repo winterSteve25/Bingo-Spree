@@ -15,4 +15,4 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: bf6d1096ba7e58342a2fb24a9fd9e7c1, type: 3}
   displayName: Clothes 3
   minAmountPerTask: 1
-  maxAmountPerTask: 4
+  maxAmountPerTask: 1

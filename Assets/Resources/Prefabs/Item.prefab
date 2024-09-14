@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: 1917314341
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: a54a015a907e2854c8f6cfd983d5d7ae, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -83,7 +83,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &8778970686802071284
@@ -98,8 +98,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6798a890bcbb4d65b8acc6e3ac358b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 11400000, guid: 836c7bd0f221c054fad52c253857353e, type: 2}
+  item: {fileID: 0}
   isHovering: 0
+  sprite: {fileID: 8778970686802071286}
 --- !u!61 &8778970686802071285
 BoxCollider2D:
   m_ObjectHideFlags: 0

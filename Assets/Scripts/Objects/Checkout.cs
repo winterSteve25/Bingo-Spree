@@ -1,12 +1,13 @@
 using Player;
 using Tasks;
+using UI;
 using UnityEngine;
 
 namespace Objects
 {
     public class Checkout : MonoBehaviour
     {
-        private void OnTriggerEnter2D(Collider2D other)
+        private void OnTriggerExit2D(Collider2D other)
         {
             PlayerTasks.Instance.EndGame();
             CompletionUI.Show();
