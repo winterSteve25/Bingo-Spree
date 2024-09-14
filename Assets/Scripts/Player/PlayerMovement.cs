@@ -28,11 +28,10 @@ namespace Player
 
         void FixedUpdate()
         {
-            // Physics calculations
-            Move();
+            rb.velocity = new Vector2(_moveDirection.x * moveSpeed, _moveDirection.y * moveSpeed);
         }
 
-        void ProcessInputs()
+        private void ProcessInputs()
         {
             float moveX = PlayerInput.GetAxisRaw("Horizontal");
             float moveY = PlayerInput.GetAxisRaw("Vertical");
@@ -98,11 +97,6 @@ namespace Player
                 animator.SetBool(Down, _down);
                 animator.SetBool(Up, _up);
             }
-        }
-
-        void Move()
-        {
-            rb.velocity = new Vector2(_moveDirection.x * moveSpeed, _moveDirection.y * moveSpeed);
         }
     }
 }

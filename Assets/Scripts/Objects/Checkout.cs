@@ -1,5 +1,4 @@
 using Player;
-using Tasks;
 using UI;
 using UnityEngine;
 
@@ -9,6 +8,7 @@ namespace Objects
     {
         private void OnTriggerExit2D(Collider2D other)
         {
+            if (!other.CompareTag("Player")) return;
             PlayerTasks.Instance.EndGame();
             CompletionUI.Show();
         }

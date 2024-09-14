@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Items;
+using Objects;
 using Tasks;
 using TMPro;
 using UnityEngine;
@@ -60,6 +62,8 @@ namespace Player
 
             var mili = (int)((_time - Math.Floor(_time)) * 100);
             timeText.text = $"{(int)_time / 60:D2}:{(int)_time % 60:D2}:{mili:D2}";
+
+            countDown.value = countDown.maxValue - _time;
         }
 
         public void StartGame()
@@ -68,10 +72,13 @@ namespace Player
             _completed = false;
             _time = 0;
             _tasks.Add(new BingoTask(bingoDimension, bingoUI));
-            _tasks.Add(new TestTask());
-            _tasks.Add(new TestTask());
+            _tasks.AddRange(LevelData.Instance.additionalTasks.Select(x => x.Create()));
             PlayerInput.Disabled = false;
-
+            
+            countDown.maxValue = LevelData.Instance.timeLimit;
+            countDown.minValue = 0;
+            countDown.value = countDown.maxValue;
+            
             foreach (var task in _tasks)
             {
                 task.Start();

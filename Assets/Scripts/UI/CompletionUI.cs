@@ -146,7 +146,7 @@ namespace UI
 
         private IEnumerator SpawnTaskScoreText(int score, int offset)
         {
-            Vector2 targetLoc = new Vector2(firstTaskLine.rect.width / 2f, (offset - 1) * TaskLineSize);
+            Vector2 targetLoc = new Vector2(firstTaskLine.rect.width / 2f, firstTaskLine.offsetMin.y + firstTaskLine.rect.height + offset * TaskLineSize);
             
             TMP_Text txt = Instantiate(taskScoreTextPrefab, transform);
 
@@ -190,7 +190,7 @@ namespace UI
 
         public void ContinueToMainMenu()
         {
-            TransitionManager.Instance().Transition(0, transitionSettings, 0.5f);
+            TransitionManager.Instance().Transition(0, transitionSettings, 0f);
         }
     }
 }
