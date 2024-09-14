@@ -190,6 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCam: {fileID: 0}
+  pickupRange: 10
 --- !u!114 &1405340347159577291
 MonoBehaviour:
   m_ObjectHideFlags: 0

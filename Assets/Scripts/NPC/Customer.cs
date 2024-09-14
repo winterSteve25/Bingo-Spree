@@ -1,4 +1,3 @@
-using DG.Tweening;
 using Objects;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -20,6 +19,9 @@ namespace NPC
         private bool _up;
         private bool _down;
         private Path _pathToFollow;
+        
+        [SerializeField] private float _waitTime;
+        [SerializeField] private float _waitCooldown;
 
         private int _nextVertexIndex;
 
@@ -32,6 +34,24 @@ namespace NPC
         private void Update()
         {
             UpdateVisual();
+            
+            if (_waitTime > 0)
+            {
+                _waitTime -= Time.deltaTime;
+                _moveDirection = Vector2.zero;
+                return;
+            }
+
+            _waitTime = 0;
+            _waitCooldown -= Time.deltaTime;
+
+            if (_waitCooldown <= 0)
+            {
+                _waitTime = Random.Range(0.5f, 2f);
+                _waitCooldown = Random.Range(2f, 8f);
+            }
+            
+            #region MoveOnPath
 
             if (_nextVertexIndex >= _pathToFollow.vertices.Length)
             {
@@ -52,13 +72,13 @@ namespace NPC
             Vector2 pos = _pathToFollow.vertices[_nextVertexIndex];
             _moveDirection = (pos - (Vector2)transform.position).normalized;
 
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, _moveDirection, 2f);
-            if (hit.collider == null)
-            {
-                return;
-            }
-
-            RaycastHit2D left = Physics2D.Raycast(transform.position, RotateV(_moveDirection, 45), 2f);
+            // RaycastHit2D hit = Physics2D.Raycast(transform.position, _moveDirection, 0.5f);
+            // if (hit.collider != null)
+            // {
+            //     _moveDirection = Vector2.zero;
+            // }
+            //
+            #endregion
         }
 
         private Vector2 RotateV(Vector2 v, float degrees)

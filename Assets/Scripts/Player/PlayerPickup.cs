@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using DG.Tweening;
 using Items;
 using UnityEngine;
 
@@ -9,6 +7,7 @@ namespace Player
     public class PlayerPickup : MonoBehaviour
     {
         [SerializeField] private Camera mainCam;
+        [SerializeField] private float pickupRange;
 
         public event Action<Item> OnItemPickedUp;
 
@@ -59,6 +58,7 @@ namespace Player
             }
 
             if (!Input.GetMouseButton(0)) return;
+            if ((_hoveringItem.transform.position - transform.position).magnitude > pickupRange) return;
 
             OnItemPickedUp?.Invoke(item.Item);
             item.PickUp(transform);
