@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Items;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -83,6 +84,18 @@ namespace Tasks
         public int GetScore()
         {
             return GetNumOfBingos() * 500;
+        }
+
+        public List<Penalty> GetPenalties()
+        {
+            List<Penalty> pens = new List<Penalty>();
+
+            if (_extraItems > 0)
+            {
+                pens.Add(new Penalty($"{_extraItems} Unneeded items bought", _extraItems * 50));
+            }
+
+            return pens;
         }
 
         public void Start()

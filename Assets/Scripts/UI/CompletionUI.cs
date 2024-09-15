@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using DG.Tweening;
 using EasyTransition;
 using Player;
+using Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -81,11 +83,11 @@ namespace UI
 
             float t = 0f;
             DOTween.To(() => t, x =>
-            {
-                t = x;
-                timeText.text = $"Time - {(int)t / 60:D2}:{(int)t % 60:D2}:{((int)((t - Math.Floor(t)) * 100)):D2}";
-            }, tasks.CompletionTime, 2f)
-            .SetEase(Ease.OutCubic);
+                {
+                    t = x;
+                    timeText.text = $"Time - {(int)t / 60:D2}:{(int)t % 60:D2}:{((int)((t - Math.Floor(t)) * 100)):D2}";
+                }, tasks.CompletionTime, 2f)
+                .SetEase(Ease.OutCubic);
 
             timeText.transform.DOPunchScale(new Vector3(1.001f, 1.001f, 1), 2f, vibrato: 4, elasticity: 0.0001f);
 
@@ -95,7 +97,7 @@ namespace UI
             #endregion
 
             int score = 0;
-            
+
             #region Tasks
 
             Vector2 size = firstTaskLine.sizeDelta;
@@ -103,66 +105,88 @@ namespace UI
             firstTaskLine.sizeDelta = size;
             firstTaskLine.anchoredPosition = Vector2.zero;
             LayoutRebuilder.ForceRebuildLayoutImmediate(firstTaskLine);
-            
+
             int offset = 0;
 
             foreach (var task in tasks.Tasks)
             {
                 var s = task.GetScore();
                 score += s;
+
+                foreach (var pen in task.GetPenalties())
+                {
+                    score -= pen.score;
+                }
+
                 yield return SpawnTaskCompletionText(task.LeftText(), task.RightText(), offset);
                 yield return new WaitForSeconds(0.1f);
-                yield return SpawnTaskScoreText(s, offset);
+                yield return SpawnTaskScoreText(s, offset, task.GetPenalties());
                 yield return new WaitForSeconds(0.2f);
                 offset++;
             }
 
             #endregion
-            
+
             #region Score
 
             separator.DOFade(1, 0.5f);
             yield return new WaitForSeconds(1f);
-            
+
             scoreText.GetComponent<CanvasGroup>().DOFade(1, 0.15f);
             yield return new WaitForSeconds(0.15f);
-            
+
             t = 0f;
             DOTween.To(() => t, x =>
-            {
-                t = x;
-                scoreText.text = $"Score: {t:N0}";
-            }, score, 2f)
-            .SetEase(Ease.OutExpo);
-            
+                {
+                    t = x;
+                    scoreText.text = $"Score: {t:N0}";
+                }, score, 2f)
+                .SetEase(Ease.OutExpo);
+
             #endregion
 
             yield return new WaitForSeconds(0.5f);
-            
+
             continueButton.blocksRaycasts = true;
             continueButton.interactable = true;
             continueButton.DOFade(1f, 0.2f);
         }
 
-        private IEnumerator SpawnTaskScoreText(int score, int offset)
+        private IEnumerator SpawnTaskScoreText(int score, int offset, List<Penalty> penalties)
         {
-            Vector2 targetLoc = new Vector2(firstTaskLine.rect.width / 2f, firstTaskLine.offsetMin.y + firstTaskLine.rect.height + offset * TaskLineSize);
-            
-            TMP_Text txt = Instantiate(taskScoreTextPrefab, transform);
+            Vector2 targetLoc = new Vector2(firstTaskLine.rect.width / 2f,
+                firstTaskLine.offsetMin.y + firstTaskLine.rect.height + offset * TaskLineSize);
 
-            txt.text = score >= 0 ? $"+{score}" : score.ToString();
-            
-            LayoutRebuilder.ForceRebuildLayoutImmediate(txt.rectTransform);
-            txt.rectTransform.anchoredPosition = new Vector3(targetLoc.x, targetLoc.y - 50);
-            var canvasGroup = txt.GetComponent<CanvasGroup>();
-            canvasGroup.DOFade(1f, 0.2f);
-            txt.rectTransform.DOAnchorPos(targetLoc, 0.2f)
-                .SetEase(Ease.OutCubic);
-            yield return new WaitForSeconds(0.7f);
-            txt.rectTransform.DOAnchorPos(new Vector2(targetLoc.x, targetLoc.y + 50), 0.2f)
-                .SetEase(Ease.InCubic);
-            canvasGroup.DOFade(0f, 0.2f)
-                .OnComplete(() => Destroy(txt.gameObject));
+            yield return SpawnTxt(score >= 0 ? $"+{score}" : score.ToString(), Color.white);
+
+            foreach (var pen in penalties)
+            {
+                yield return new WaitForSeconds(0.2f);
+                yield return SpawnTxt($"-{pen.score} {pen.text}", Color.red, 18, 2);
+            }
+
+            IEnumerator SpawnTxt(string text, Color color, float fontSize = -1, float delay = 0.5f)
+            {
+                TMP_Text txt = Instantiate(taskScoreTextPrefab, transform);
+                txt.text = text;
+                txt.color = color;
+                if (fontSize > 0)
+                {
+                    txt.fontSize = fontSize;
+                }
+
+                LayoutRebuilder.ForceRebuildLayoutImmediate(txt.rectTransform);
+                txt.rectTransform.anchoredPosition = new Vector3(targetLoc.x, targetLoc.y - 50);
+                var canvasGroup = txt.GetComponent<CanvasGroup>();
+                canvasGroup.DOFade(1f, 0.2f);
+                txt.rectTransform.DOAnchorPos(targetLoc, 0.2f)
+                    .SetEase(Ease.OutCubic);
+                yield return new WaitForSeconds(0.2f + delay);
+                txt.rectTransform.DOAnchorPos(new Vector2(targetLoc.x, targetLoc.y + 50), 0.2f)
+                    .SetEase(Ease.InCubic);
+                canvasGroup.DOFade(0f, 0.2f)
+                    .OnComplete(() => Destroy(txt.gameObject));
+            }
         }
 
         private IEnumerator SpawnTaskCompletionText(string left, string right, int offset)
