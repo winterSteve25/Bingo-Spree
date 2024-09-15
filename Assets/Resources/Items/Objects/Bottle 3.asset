@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 97c349953fc9c184fac5a1316a9d0a38, type: 3}
   minAmountPerTask: 1
-  maxAmountPerTask: 4
+  maxAmountPerTask: 5
