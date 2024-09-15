@@ -12,6 +12,7 @@ namespace Tasks
         private readonly BingoUI _ui;
 
         private ItemStack[,] _bingo;
+        private int _extraItems;
 
         private static readonly Lazy<Item[]> Items = new(() => Resources.LoadAll<Item>("Items/Objects"));
 
@@ -126,6 +127,9 @@ namespace Tasks
                 }
             }
 
+            // if found will jump to broken so this wont be called
+            _extraItems++;
+            
             broken: ;
         }
     }

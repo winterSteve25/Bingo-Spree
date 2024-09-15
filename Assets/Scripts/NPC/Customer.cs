@@ -72,6 +72,7 @@ namespace NPC
             Vector2 pos = _pathToFollow.vertices[_nextVertexIndex];
             _moveDirection = (pos - (Vector2)transform.position).normalized;
 
+            // Todo:
             // RaycastHit2D hit = Physics2D.Raycast(transform.position, _moveDirection, 0.5f);
             // if (hit.collider != null)
             // {
