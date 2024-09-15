@@ -5,6 +5,7 @@ using Items;
 using Objects;
 using Tasks;
 using TMPro;
+using UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,13 +18,15 @@ namespace Player
 
         [SerializeField] private int bingoDimension;
         [SerializeField] private BingoUI bingoUI;
+        [SerializeField] private CanvasGroup comboUI;
         [SerializeField] private Slider countDown;
         [SerializeField] private TMP_Text timeText;
 
         private List<IPlayableTask> _tasks;
         private float _time;
         private bool _completed;
-
+        [NonSerialized] public bool CollidedWithNPC;
+        
         public float CompletionTime => _time;
         public List<IPlayableTask> Tasks => _tasks;
 
@@ -66,7 +69,7 @@ namespace Player
             countDown.value = countDown.maxValue - _time;
         }
 
-        public void StartGame()
+        private void StartGame()
         {
             _tasks = new List<IPlayableTask>();
             _completed = false;
@@ -74,7 +77,9 @@ namespace Player
             _tasks.Add(new BingoTask(bingoDimension, bingoUI));
             _tasks.AddRange(LevelData.Instance.additionalTasks.Select(x => x.Create()));
             PlayerInput.Disabled = false;
-            
+
+            comboUI.gameObject.SetActive(true);
+            countDown.gameObject.SetActive(true);
             countDown.maxValue = LevelData.Instance.timeLimit;
             countDown.minValue = 0;
             countDown.value = countDown.maxValue;
@@ -89,7 +94,9 @@ namespace Player
         {
             _completed = true;
             timeText.text = "";
+            countDown.gameObject.SetActive(false);
             PlayerInput.Disabled = true;
+            comboUI.gameObject.SetActive(false);
         }
     }
 }

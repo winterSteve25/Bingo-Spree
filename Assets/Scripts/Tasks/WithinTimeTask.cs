@@ -20,7 +20,7 @@ namespace Tasks
 
             public string LeftText()
             {
-                return $"Completed under {_timeRequired}s";
+                return $"- Completed under {_timeRequired}s";
             }
 
             public string RightText()
@@ -31,14 +31,6 @@ namespace Tasks
             public int GetScore()
             {
                 return PlayerTasks.Instance.CompletionTime <= _timeRequired ? 200 : 0;
-            }
-
-            public void Start()
-            {
-            }
-
-            public void ItemPickedUp(Item item)
-            {
             }
         }
         

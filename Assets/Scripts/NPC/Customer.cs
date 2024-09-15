@@ -1,3 +1,4 @@
+using System;
 using Objects;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -13,6 +14,7 @@ namespace NPC
         [SerializeField] private Animator animator;
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private float moveSpeed = 5;
+        [SerializeField] private Transform front;
 
         private Vector2 _moveDirection;
         private bool _side;
@@ -72,20 +74,13 @@ namespace NPC
             Vector2 pos = _pathToFollow.vertices[_nextVertexIndex];
             _moveDirection = (pos - (Vector2)transform.position).normalized;
 
-            // Todo:
-            // RaycastHit2D hit = Physics2D.Raycast(transform.position, _moveDirection, 0.5f);
-            // if (hit.collider != null)
+            // Collider2D hit = Physics2D.OverlapPoint(front.position);
+            // if (hit != null && hit.gameObject != null)
             // {
             //     _moveDirection = Vector2.zero;
             // }
-            //
+            
             #endregion
-        }
-
-        private Vector2 RotateV(Vector2 v, float degrees)
-        {
-            float a = degrees * Mathf.Deg2Rad;
-            return new Vector2(Mathf.Cos(a) * v.x - Mathf.Sin(a) * v.y, Mathf.Sin(a) * v.x + Mathf.Cos(a) * v.y);
         }
 
         private void Despawn()

@@ -14,8 +14,13 @@ namespace Tasks
         {
             return Enumerable.Empty<Penalty>().ToList();
         }
+
+        void Start()
+        {
+        }
         
-        void Start();
-        void ItemPickedUp(Item item);
+        void ItemPickedUp(Item item)
+        {
+        }
     }
 }

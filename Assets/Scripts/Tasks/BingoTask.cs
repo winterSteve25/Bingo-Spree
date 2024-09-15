@@ -86,7 +86,7 @@ namespace Tasks
 
         public int GetScore()
         {
-            return GetNumOfBingos() * 500;
+            return GetNumOfBingos() * 800;
         }
 
         public List<Penalty> GetPenalties()
@@ -95,7 +95,7 @@ namespace Tasks
 
             if (_extraItems > 0)
             {
-                pens.Add(new Penalty($"{_extraItems} Unneeded items bought", _extraItems * 50));
+                pens.Add(new Penalty($"{_extraItems} Unneeded items bought", _extraItems * 25));
             }
 
             return pens;

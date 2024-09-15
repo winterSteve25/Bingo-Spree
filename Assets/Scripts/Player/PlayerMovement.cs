@@ -1,3 +1,4 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
@@ -103,6 +104,16 @@ namespace Player
                 animator.SetBool(Down, _down);
                 animator.SetBool(Up, _up);
             }
+        }
+
+        private void OnCollisionEnter2D(Collision2D other)
+        {
+            if (!other.gameObject.CompareTag("NPC"))
+            {
+                return;
+            }
+
+            PlayerTasks.Instance.CollidedWithNPC = true;
         }
     }
 }
