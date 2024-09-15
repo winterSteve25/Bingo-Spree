@@ -162,7 +162,7 @@ namespace UI
             foreach (var pen in penalties)
             {
                 yield return new WaitForSeconds(0.2f);
-                yield return SpawnTxt($"-{pen.score} {pen.text}", Color.red, 18, 2);
+                yield return SpawnTxt($"-{pen.score} / {pen.text}", Color.red, 18, 2);
             }
 
             IEnumerator SpawnTxt(string text, Color color, float fontSize = -1, float delay = 0.5f)

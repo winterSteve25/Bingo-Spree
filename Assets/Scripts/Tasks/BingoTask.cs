@@ -8,6 +8,9 @@ namespace Tasks
 {
     public class BingoTask : IPlayableTask
     {
+        public static event Action OnBingo;
+        public static event Action OnSlot;
+        
         private readonly int _bingoDimension;
         private readonly bool[,] _bingoCompletion;
         private readonly BingoUI _ui;
@@ -116,6 +119,8 @@ namespace Tasks
 
         public void ItemPickedUp(Item item)
         {
+            int prevBingoCount = GetNumOfBingos();
+            
             for (int i = 0; i < _bingoDimension; i++)
             {
                 for (int j = 0; j < _bingoDimension; j++)
@@ -133,6 +138,7 @@ namespace Tasks
                     if (iS.amount == 0)
                     {
                         _bingoCompletion[i, j] = true;
+                        OnSlot?.Invoke();
                     }
 
                     _ui.Get(i, j).UpdateAmount(iS.amount);
@@ -144,6 +150,11 @@ namespace Tasks
             _extraItems++;
             
             broken: ;
+
+            if (GetNumOfBingos() - prevBingoCount != 0)
+            {
+                OnBingo?.Invoke();
+            }
         }
     }
 }

@@ -5,7 +5,10 @@ namespace Player
 {
     public class PlayerMovement : MonoBehaviour
     {
-        [SerializeField] private float moveSpeed;
+        private static PlayerMovement _instance;
+        public static PlayerMovement Instance => _instance;
+        
+        public float moveSpeed;
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private Animator animator;
         [SerializeField] private Transform playerLoc;
@@ -18,10 +21,13 @@ namespace Player
         private static readonly int Down = Animator.StringToHash("Down");
         private static readonly int Up = Animator.StringToHash("Up");
 
-        // Update is called once per frame
+        private void Awake()
+        {
+            _instance = this;
+        }
+
         void Update()
         {
-            // Processing Inputs
             ProcessInputs();
             playerLoc.position = transform.position;
         }

@@ -20,8 +20,8 @@ namespace NPC
         private bool _down;
         private Path _pathToFollow;
         
-        [SerializeField] private float _waitTime;
-        [SerializeField] private float _waitCooldown;
+        private float _waitTime;
+        private float _waitCooldown;
 
         private int _nextVertexIndex;
 

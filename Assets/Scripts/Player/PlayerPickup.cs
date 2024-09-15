@@ -6,12 +6,20 @@ namespace Player
 {
     public class PlayerPickup : MonoBehaviour
     {
+        private static PlayerPickup _instance;
+        public static PlayerPickup Instance => _instance;
+        
         [SerializeField] private Camera mainCam;
-        [SerializeField] private float pickupRange;
+        public float pickupRange;
 
         public event Action<Item> OnItemPickedUp;
 
         private WorldItem _hoveringItem;
+
+        private void Awake()
+        {
+            _instance = this;
+        }
 
         private void Update()
         {
