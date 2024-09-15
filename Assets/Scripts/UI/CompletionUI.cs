@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Audio;
 using DG.Tweening;
 using EasyTransition;
 using Player;
@@ -16,11 +17,11 @@ namespace UI
         private static CompletionUI _instance;
         private static readonly int TaskLineSize = -65;
 
-        public static void Show()
+        public static void Show(bool timesUp = false)
         {
             _instance.gameObject.SetActive(true);
             _instance.ResetScreen();
-            _instance.StartCoroutine(_instance.PlayAnimation());
+            _instance.StartCoroutine(_instance.PlayAnimation(timesUp));
         }
 
         [SerializeField] private CanvasGroup canvasGroup;
@@ -45,6 +46,7 @@ namespace UI
         private void ResetScreen()
         {
             canvasGroup.alpha = 0;
+            completionText.text = "Checked Out!";
             completionText.transform.localScale = new Vector3(3, 3, 1);
             completionText.GetComponent<CanvasGroup>().alpha = 0;
             timeText.text = "";
@@ -62,7 +64,7 @@ namespace UI
             continueButton.interactable = false;
         }
 
-        private IEnumerator PlayAnimation()
+        private IEnumerator PlayAnimation(bool timesUp)
         {
             PlayerTasks tasks = PlayerTasks.Instance;
 
@@ -71,11 +73,20 @@ namespace UI
 
             #region CompletionText
 
+            if (timesUp)
+            {
+                completionText.text = "Times Up!";
+            }
+
             completionText.transform.DOScale(new Vector3(1, 1, 1), 0.2f)
                 .SetEase(Ease.InElastic);
             completionText.GetComponent<CanvasGroup>().DOFade(1, 0.15f);
 
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.15f);
+            
+            AudioManager.Play(1, SourceType.UI);
+
+            yield return new WaitForSeconds(0.35f);
 
             #endregion
 
@@ -101,7 +112,7 @@ namespace UI
             #region Tasks
 
             Vector2 size = firstTaskLine.sizeDelta;
-            size.y = Mathf.Abs(tasks.Tasks.Count * TaskLineSize);
+            size.y = Mathf.Abs((timesUp ? 1 : tasks.Tasks.Count) * TaskLineSize);
             firstTaskLine.sizeDelta = size;
             firstTaskLine.anchoredPosition = Vector2.zero;
             LayoutRebuilder.ForceRebuildLayoutImmediate(firstTaskLine);
@@ -123,6 +134,11 @@ namespace UI
                 yield return SpawnTaskScoreText(s, offset, task.GetPenalties());
                 yield return new WaitForSeconds(0.2f);
                 offset++;
+
+                if (timesUp)
+                {
+                    break;
+                }
             }
 
             #endregion
@@ -133,7 +149,15 @@ namespace UI
             yield return new WaitForSeconds(1f);
 
             scoreText.GetComponent<CanvasGroup>().DOFade(1, 0.15f);
-            yield return new WaitForSeconds(0.15f);
+            
+            yield return new WaitForSeconds(0.12f);
+
+            if (score != 0)
+            {
+                AudioManager.Play(2, SourceType.UI);
+            }
+
+            yield return new WaitForSeconds(0.03f);
 
             t = 0f;
             DOTween.To(() => t, x =>
@@ -142,7 +166,7 @@ namespace UI
                     scoreText.text = $"Score: {t:N0}";
                 }, score, 2f)
                 .SetEase(Ease.OutExpo);
-
+            
             #endregion
 
             yield return new WaitForSeconds(0.5f);
@@ -209,7 +233,11 @@ namespace UI
             rightText.rectTransform.DOAnchorPos(new Vector2(firstTaskLine.rect.width, offset * TaskLineSize), 0.3f)
                 .SetEase(Ease.OutExpo);
 
-            yield return new WaitForSeconds(0.3f);
+            yield return new WaitForSeconds(0.05f);
+
+            AudioManager.Play(8, SourceType.UI);
+            
+            yield return new WaitForSeconds(0.25f);
         }
 
         public void ContinueToMainMenu()

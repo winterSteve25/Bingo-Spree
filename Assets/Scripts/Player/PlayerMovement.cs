@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using NPC;
 using UnityEngine;
 
 namespace Player
@@ -13,6 +14,7 @@ namespace Player
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private Animator animator;
         [SerializeField] private Transform playerLoc;
+        public ParticleSystem runningEffect;
 
         private Vector2 _moveDirection;
         private bool _side;
@@ -114,6 +116,10 @@ namespace Player
             }
 
             PlayerTasks.Instance.CollidedWithNPC = true;
+            if (other.gameObject.TryGetComponent(out Customer customer))
+            {
+                customer.Anger();
+            }
         }
     }
 }

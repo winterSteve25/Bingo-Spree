@@ -1,4 +1,5 @@
 using System;
+using Audio;
 using Objects;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -15,6 +16,7 @@ namespace NPC
         [SerializeField] private Rigidbody2D rb;
         [SerializeField] private float moveSpeed = 5;
         [SerializeField] private Transform front;
+        [SerializeField] private ParticleSystem anger;
 
         private Vector2 _moveDirection;
         private bool _side;
@@ -154,6 +156,12 @@ namespace NPC
                 animator.SetBool(Down, _down);
                 animator.SetBool(Up, _up);
             }
+        }
+
+        public void Anger()
+        {
+            anger.Play();
+            AudioManager.Play(9, SourceType.SFX);
         }
     }
 }

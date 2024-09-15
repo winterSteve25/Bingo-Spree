@@ -156,6 +156,15 @@ namespace UI
             
             PlayerMovement.Instance.moveSpeed = _baseMovementSpeed * effectPerct;
             PlayerPickup.Instance.pickupRange = _basePickupRange * effectPerct;
+
+            if (effectPerct > 1)
+            {
+                PlayerMovement.Instance.runningEffect.Play();
+            }
+            else
+            {
+                PlayerMovement.Instance.runningEffect.Stop();
+            }
             
             effect1Txt.text = $"+{(effectPerct - 1) * 100:N0}% Speed";
             effect2Txt.text = $"+{(effectPerct - 1) * 100:N0}% Range";

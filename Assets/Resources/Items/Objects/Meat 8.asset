@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Meat 8
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 91a79f3b0753cbe4d81e0083c16cc26e, type: 3}
-  minAmountPerTask: 1
-  maxAmountPerTask: 4
+  minAmountPerTask: 2
+  maxAmountPerTask: 5

@@ -29,6 +29,11 @@ namespace Tasks
             background.color = c;
             UpdateName(amount);
         }
+        
+        public void BingoColor()
+        {
+            background.color = new Color(242 / 255f, 201 / 255f, 76 / 255f);
+        }
 
         private void UpdateName(int amount)
         {

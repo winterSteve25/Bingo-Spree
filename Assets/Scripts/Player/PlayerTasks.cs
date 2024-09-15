@@ -26,7 +26,7 @@ namespace Player
         private float _time;
         private bool _completed;
         [NonSerialized] public bool CollidedWithNPC;
-        
+
         public float CompletionTime => _time;
         public List<IPlayableTask> Tasks => _tasks;
 
@@ -67,6 +67,10 @@ namespace Player
             timeText.text = $"{(int)_time / 60:D2}:{(int)_time % 60:D2}:{mili:D2}";
 
             countDown.value = countDown.maxValue - _time;
+
+            if (!(_time >= countDown.maxValue)) return;
+            EndGame();
+            CompletionUI.Show(true);
         }
 
         private void StartGame()
@@ -83,7 +87,7 @@ namespace Player
             countDown.maxValue = LevelData.Instance.timeLimit;
             countDown.minValue = 0;
             countDown.value = countDown.maxValue;
-            
+
             foreach (var task in _tasks)
             {
                 task.Start();

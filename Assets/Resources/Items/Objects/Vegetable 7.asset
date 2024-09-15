@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Vegetable 7
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 817a02d064ce57140b44d5bbf3f40ee3, type: 3}
-  minAmountPerTask: 1
-  maxAmountPerTask: 4
+  minAmountPerTask: 2
+  maxAmountPerTask: 6

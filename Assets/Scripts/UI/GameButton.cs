@@ -1,3 +1,4 @@
+using Audio;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
@@ -53,6 +54,8 @@ namespace Tasks
 
         public void OnSelect(BaseEventData eventData)
         {
+            AudioManager.Play(6, SourceType.UI);
+            
             if (underline != null)
             {
                 DOTween.To(

@@ -1,4 +1,5 @@
 using System;
+using Audio;
 using Items;
 using UnityEngine;
 
@@ -68,6 +69,7 @@ namespace Player
             if (!Input.GetMouseButton(0)) return;
             if ((_hoveringItem.transform.position - transform.position).magnitude > pickupRange) return;
 
+            AudioManager.Play(0, SourceType.SFX);
             OnItemPickedUp?.Invoke(item.Item);
             item.PickUp(transform);
         }
